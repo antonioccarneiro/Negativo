@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Negativações Bancárias</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0f12;--sur:#141720;--card:#1b1f2b;--bdr:#252a38;--acc:#e8a020;--red:#c0392b;--txt:#d8dce8;--mut:#5a6070;--grn:#2ecc71;--mono:'IBM Plex Mono',monospace}
+body{background:var(--bg);color:var(--txt);font-family:var(--mono);min-height:100vh;padding:2rem 1rem 4rem}
+.sh{max-width:700px;margin:0 auto}
+.hdr{border-bottom:1px solid var(--bdr);padding-bottom:1.2rem;margin-bottom:1.8rem}
+.htag{font-size:.6rem;letter-spacing:.18em;color:var(--acc);text-transform:uppercase;margin-bottom:.4rem}
+h1{font-size:1.4rem;font-weight:600;color:#fff}
+.sub{font-size:.75rem;color:var(--mut);margin-top:.3rem}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:1.3rem 1.4rem;margin-bottom:1.1rem}
+.cl{font-size:.58rem;letter-spacing:.2em;color:var(--mut);text-transform:uppercase;margin-bottom:.9rem}
+ul{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+li.bi{display:flex;align-items:center;gap:.7rem;background:var(--sur);border:1px solid var(--bdr);border-radius:6px;padding:.55rem .85rem;font-size:.8rem}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;box-shadow:0 0 6px var(--red)}
+.bn{flex:1}
+.br{background:none;border:none;cursor:pointer;color:var(--mut);font-size:.88rem}
+.sep{height:1px;background:var(--bdr);margin:.9rem 0}
+.ar{display:flex;gap:.55rem;margin-top:.8rem}
+.it{flex:1;background:var(--sur);border:1px solid var(--bdr);border-radius:6px;color:var(--txt);font-family:var(--mono);font-size:.8rem;padding:.5rem .8rem;outline:none}
+.it::placeholder{color:var(--mut)}
+.btn{background:var(--acc);border:none;border-radius:6px;color:#000;cursor:pointer;font-family:var(--mono);font-size:.75rem;font-weight:600;padding:.5rem .95rem}
+.ps{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.8rem}
+.pb{background:transparent;border:1px solid var(--bdr);border-radius:4px;color:var(--mut);cursor:pointer;font-family:var(--mono);font-size:.65rem;padding:.28rem .6rem}
+.dr{display:flex;gap:1.1rem;flex-wrap:wrap;align-items:flex-end}
+.df{display:flex;flex-direction:column;gap:.35rem}
+label{font-size:.58rem;letter-spacing:.18em;color:var(--mut);text-transform:uppercase}
+input[type=date]{background:var(--sur);border:1px solid var(--bdr);border-radius:6px;color:var(--txt);font-family:var(--mono);font-size:.85rem;padding:.5rem .8rem;outline:none;color-scheme:dark}
+.rb{background:var(--sur);border:1px solid var(--bdr);border-radius:8px;padding:1.1rem 1.3rem;margin-top:.95rem}
+.rd{font-size:1.45rem;font-weight:600;color:var(--grn)}
+.rdy{font-size:.75rem;color:var(--acc);margin-top:.2rem}
+.rn{font-size:.72rem;color:var(--mut);border-top:1px solid var(--bdr);padding-top:.55rem;margin-top:.65rem}
+.em{font-size:.78rem;color:var(--mut);text-align:center;padding:.7rem 0}
+.ft{text-align:center;margin-top:1.75rem;font-size:.55rem;color:var(--mut);letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useEffect}=React;
+function gE(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m2=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m2+114)/31),day=((h+l-7*m2+114)%31)+1;return new Date(y,mo-1,day)}
+const aD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const tK=d=>(d.getMonth()+1)+"-"+d.getDate();
+const bH=y=>{const e=gE(y);return new Set(["1-1","4-21","5-1","9-7","10-12","11-2","11-15","11-20","12-25",tK(aD(e,-48)),tK(aD(e,-47)),tK(aD(e,-2)),tK(aD(e,60))])};
+const iB=d=>{const w=d.getDay();return w!==0&&w!==6&&!bH(d.getFullYear()).has(tK(d))};
+function pB(d){let x=new Date(d);x.setDate(x.getDate()-1);while(!iB(x))x.setDate(x.getDate()-1);return x}
+const pL=s=>{if(!s)return null;const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const WD=["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+const MN=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const fm=d=>String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+d.getFullYear();
+const fL=d=>WD[d.getDay()]+", "+d.getDate()+" de "+MN[d.getMonth()]+". de "+d.getFullYear();
+const PR=["Banco do Brasil","Bradesco","Itaú","Caixa","Santander","Nubank","Sicredi","BTG","Inter","C6 Bank"];
+function App(){
+  const[banks,setB]=useState(()=>{try{return JSON.parse(localStorage.getItem("neg")||"[]")}catch{return[]}});
+  const[nb,sNb]=useState(""),[ss,sSs]=useState("");
+  useEffect(()=>{localStorage.setItem("neg",JSON.stringify(banks))},[banks]);
+  const add=()=>{const n=nb.trim();if(!n||banks.includes(n))return;setB(p=>[...p,n]);sNb("")};
+  let r=null;
+  if(ss){const s=pL(ss),raw=aD(s,10),fin=iB(raw)?raw:pB(raw),adj=raw.getTime()!==fin.getTime();
+    const w=raw.getDay();r={raw,fin,adj,reason:adj?(w===0?"Domingo":w===6?"Sábado":"Feriado nacional"):""};}
+  return(<div className="sh">
+    <div className="hdr"><div className="htag">// controle financeiro</div><h1>Negativações Bancárias</h1><p className="sub">D+10 corridos · correção para dia útil anterior · feriados nacionais BR</p></div>
+    <div className="card"><div className="cl">// bancos negativados</div>
+      {banks.length===0?<div className="em">Nenhum banco adicionado.</div>:<ul>{banks.map(b=><li key={b} className="bi"><span className="dot"/><span className="bn">{b}</span><button className="br" onClick={()=>setB(p=>p.filter(x=>x!==b))}>✕</button></li>)}</ul>}
+      <div className="sep"/>
+      <div className="ar"><input className="it" placeholder="Nome do banco..." value={nb} onChange={e=>sNb(e.target.value)} onKeyDown={e=>e.key==="Enter"&&add()}/><button className="btn" onClick={add}>+ Adicionar</button></div>
+      <div className="ps">{PR.map(n=><button key={n} className="pb" onClick={()=>{if(!banks.includes(n))setB(p=>[...p,n])}} style={banks.includes(n)?{opacity:.35,cursor:"default"}:{}}>{n}</button>)}</div>
+    </div>
+    <div className="card"><div className="cl">// cálculo de prazo</div>
+      <div className="dr">
+        <div className="df"><label>Data de início</label><input type="date" value={ss} onChange={e=>sSs(e.target.value)}/></div>
+        {r&&<div className="df"><label>D+10 bruto</label><div style={{fontSize:".8rem",color:"#5a6070",padding:".5rem 0"}}>{fm(r.raw)} · {WD[r.raw.getDay()]}</div></div>}
+      </div>
+      {r&&<div className="rb"><div className="rd">{fm(r.fin)}</div><div className="rdy">{fL(r.fin)}</div>
+        {r.adj?<div className="rn">⚠ <span style={{color:"#e8a020"}}>{r.reason} → dia útil anterior</span> · recuado de {fm(r.raw)}</div>
+              :<div className="rn">✓ <span style={{color:"#2ecc71"}}>Dia útil</span> — sem ajuste.</div>}
+      </div>}
+    </div>
+    <div className="ft">FERIADOS NACIONAIS · CARNAVAL · CORPUS CHRISTI · SEXTA-FEIRA SANTA</div>
+  </div>)
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
